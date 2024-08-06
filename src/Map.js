@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUndo, faRedo } from '@fortawesome/free-solid-svg-icons';
 
 const Map = () => {
+  const gridSize = 10; // Size of each grid cell
+  const gridCount = 10; // Number of cells along one axis (assuming a square grid)
   const [objects, setObjects] = useState([]); // Current objects on the map
   const [history, setHistory] = useState([]); // History stack
   const [redoStack, setRedoStack] = useState([]); // Redo stack
@@ -26,11 +28,21 @@ const Map = () => {
     };
   }, [selectedObject]);
 
+  const snapToGrid = (position) => {
+    return Math.round(position / gridSize) * gridSize;
+  };
+
   const handlePlaneClick = (event) => {
     if (!selectedObject) return;
 
-    // Convert the 2D screen coordinates to 3D world coordinates
-    const [x, y, z] = event.point.toArray();
+    // Get the click position and snap it to the grid
+    let [x, y, z] = event.point.toArray();
+    x = snapToGrid(x);
+    z = snapToGrid(z);
+
+    // Check if the grid cell is already occupied
+    const isOccupied = objects.some(obj => obj.position[0] === x && obj.position[2] === z);
+    if (isOccupied) return; // If occupied, do nothing
 
     // Create a new object based on the selected type
     let newObject;
@@ -38,17 +50,17 @@ const Map = () => {
       case 'cube':
         newObject = {
           id: Math.random(),
-          geometry: <boxGeometry args={[10, 10, 10]} />,
+          geometry: <boxGeometry args={[gridSize, gridSize, gridSize]} />,
           material: <meshStandardMaterial color="blue" />,
-          position: [x, 5, z], // Position at the clicked location
+          position: [x, gridSize / 2, z], // Position at the center of the grid cell
         };
         break;
       case 'sphere':
         newObject = {
           id: Math.random(),
-          geometry: <sphereGeometry args={[5, 32, 32]} />,
+          geometry: <sphereGeometry args={[gridSize / 2, 32, 32]} />,
           material: <meshStandardMaterial color="red" />,
-          position: [x, 5, z], // Position at the clicked location
+          position: [x, gridSize / 2, z], // Position at the center of the grid cell
         };
         break;
       // Add more cases for different components
@@ -87,7 +99,7 @@ const Map = () => {
 
         {/* The Plane */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow onPointerDown={handlePlaneClick}>
-          <planeGeometry args={[100, 100]} />
+          <planeGeometry args={[gridSize * gridCount, gridSize * gridCount]} />
           <meshStandardMaterial color="green" />
         </mesh>
 
