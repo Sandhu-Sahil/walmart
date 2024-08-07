@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUndo, faRedo } from '@fortawesome/free-solid-svg-icons';
+import { faUndo, faRedo, faSave, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 
 const Map = () => {
   const gridSize = 10; // Size of each grid cell
@@ -91,6 +91,60 @@ const Map = () => {
     setRedoStack(redoStack.slice(1)); // Remove the state from the redo stack
   };
 
+  const saveMapState = (mapId) => {
+    const mapState = {
+      id: mapId,
+      objects: objects.map(obj => {
+        // Check if material and color are defined
+        const color = obj.material && obj.material.color ? obj.material.color.getHex() : 0xffffff; // Default to white if color is undefined
+        return {
+          type: obj.geometry,  // e.g., 'BoxGeometry' or 'SphereGeometry'
+          position: obj.position,
+          size: obj.geometry.props.args,  // Store the size (e.g., width, height, depth, etc.)
+          color: color
+        };
+      })
+    };
+  
+    localStorage.setItem(`map_${mapId}`, JSON.stringify(mapState));
+  };
+  
+  
+  const loadMapState = (mapId) => {
+    const savedMap = localStorage.getItem(`map_${mapId}`);
+    if (!savedMap) return;
+  
+    const { objects: savedObjects } = JSON.parse(savedMap);
+    const loadedObjects = savedObjects.map(obj => {
+      let geometry;
+      let material;
+      console.log(obj);
+      switch (obj.type.type) {
+        case 'boxGeometry':
+          geometry = <boxGeometry args={[gridSize, gridSize, gridSize]} />
+          material = <meshStandardMaterial color="blue" />;
+          break;
+        case 'sphereGeometry':
+          geometry = <sphereGeometry args={[gridSize / 2, 32, 32]} />;
+          material = <meshStandardMaterial color="red" />;
+          break;
+        default:
+          break;
+      }
+  
+  
+      return {
+        id: Math.random(),
+        geometry: geometry,
+        material: material,
+        position: obj.position,
+      };
+    });
+  
+    setObjects(loadedObjects);
+  };
+  
+  console.log(objects);
   return (
     <>
       <Canvas camera={{ position: [0, 100, 100], fov: 50 }}>
@@ -121,6 +175,12 @@ const Map = () => {
         </button>
         <button onClick={redo} disabled={redoStack.length === 0}>
           <FontAwesomeIcon icon={faRedo} />
+        </button>
+        <button onClick={() => saveMapState('myMap')}>
+          <FontAwesomeIcon icon={faSave} />
+        </button>
+        <button onClick={() => loadMapState('myMap')}>
+          <FontAwesomeIcon icon={faFolderOpen} />
         </button>
       </div>
     </>
