@@ -16,6 +16,8 @@ const Map = () => {
   const [history, setHistory] = useState([]); // History stack
   const [redoStack, setRedoStack] = useState([]); // Redo stack
   const [selectedObject, setSelectedObject] = useState(null);
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
+
 
   useEffect(() => {
     // Change cursor to "grabbing" when a component is selected
@@ -36,6 +38,26 @@ const Map = () => {
   };
 
   const handlePlaneClick = (event) => {
+
+    if (isDeleteMode) {
+      // Get the click position and snap it to the grid
+      let [x, , z] = event.point.toArray();
+      x = snapToGrid(x);
+      z = snapToGrid(z);
+  
+      // Find the object at the clicked position and remove it
+      const remainingObjects = objects.filter(obj => !(obj.position[0] === x && obj.position[2] === z));
+      
+      // If an object was removed, update history and state
+      if (remainingObjects.length !== objects.length) {
+        setHistory([...history, objects]);
+        setRedoStack([]);
+        setObjects(remainingObjects);
+      }
+  
+      return;
+    }
+  
     if (!selectedObject) return;
 
     // Get the click position and snap it to the grid
@@ -251,6 +273,10 @@ const Map = () => {
         <button onClick={() => loadMapState('myMap')}>
           <FontAwesomeIcon icon={faFolderOpen} />
         </button>
+        <button onClick={() => setIsDeleteMode(!isDeleteMode)} style={{ backgroundColor: isDeleteMode ? 'red' : 'grey' }}>
+          Delete Mode
+        </button>
+
       </div>
     </>
   );
