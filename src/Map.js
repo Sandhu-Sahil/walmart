@@ -6,6 +6,8 @@ import * as THREE from 'three';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUndo, faRedo, faSave, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 import CameraControls from './CameraControls';
+import AisleBlock from './AisleBlock';
+import WallWithWindowBlock from './WallBlock';
 
 const Map = () => {
   const gridSize = 10; // Size of each grid cell
@@ -54,6 +56,7 @@ const Map = () => {
           geometry: <boxGeometry args={[gridSize, gridSize, gridSize]} />,
           material: <meshStandardMaterial color="blue" />,
           position: [x, gridSize / 2, z], // Position at the center of the grid cell
+          type: 'cube',
         };
         break;
       case 'sphere':
@@ -62,9 +65,29 @@ const Map = () => {
           geometry: <sphereGeometry args={[gridSize / 2, 32, 32]} />,
           material: <meshStandardMaterial color="red" />,
           position: [x, gridSize / 2, z], // Position at the center of the grid cell
+          type: 'sphere',
         };
         break;
-      // Add more cases for different components
+      
+      case 'aisle':
+        newObject ={
+          id: Math.random(),
+          geometry: <AisleBlock />,
+          material: <meshStandardMaterial color="red" />,
+          position: [x, gridSize / 2, z],
+          type: 'aisle',
+        };
+        break;
+      case 'wall':
+        newObject = {
+          id: Math.random(),
+          geometry: <WallWithWindowBlock />,
+          material: <meshStandardMaterial color="gray" />,
+          position: [x, gridSize / 2, z],
+          type: 'wall',
+        };
+        break;
+
       default:
         break;
     }
@@ -99,9 +122,9 @@ const Map = () => {
         // Check if material and color are defined
         const color = obj.material && obj.material.color ? obj.material.color.getHex() : 0xffffff; // Default to white if color is undefined
         return {
-          type: obj.geometry,  // e.g., 'BoxGeometry' or 'SphereGeometry'
+          type: obj.type,  
           position: obj.position,
-          size: obj.geometry.props.args,  // Store the size (e.g., width, height, depth, etc.)
+          // size: obj.geometry.props.args,  // Store the size (e.g., width, height, depth, etc.)
           color: color
         };
       })
@@ -120,15 +143,24 @@ const Map = () => {
       let geometry;
       let material;
       console.log(obj);
-      switch (obj.type.type) {
-        case 'boxGeometry':
+      switch (obj.type) {
+        case 'cube':
           geometry = <boxGeometry args={[gridSize, gridSize, gridSize]} />
           material = <meshStandardMaterial color="blue" />;
           break;
-        case 'sphereGeometry':
+        case 'sphere':
           geometry = <sphereGeometry args={[gridSize / 2, 32, 32]} />;
           material = <meshStandardMaterial color="red" />;
           break;
+        case 'aisle':
+          geometry = <AisleBlock />;
+          material = <meshStandardMaterial color="red" />;
+          break;
+        case 'wall':
+          geometry = <WallWithWindowBlock />;
+          material = <meshStandardMaterial color="gray" />;
+          break;
+        
         default:
           break;
       }
@@ -181,6 +213,8 @@ const Map = () => {
       <div className="panel">
         <button onClick={() => setSelectedObject('cube')}>Add Cube</button>
         <button onClick={() => setSelectedObject('sphere')}>Add Sphere</button>
+        <button onClick={() => setSelectedObject('aisle')}>Add Aisle</button>
+        <button onClick={() => setSelectedObject('wall')}>Add Wall</button>
         <button onClick={undo} disabled={history.length === 0}>
           <FontAwesomeIcon icon={faUndo} />
         </button>
