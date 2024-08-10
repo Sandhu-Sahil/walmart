@@ -5,6 +5,7 @@ import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUndo, faRedo, faSave, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
+import CameraControls from './CameraControls';
 
 const Map = () => {
   const gridSize = 10; // Size of each grid cell
@@ -165,7 +166,17 @@ const Map = () => {
           </mesh>
         ))}
 
-        <OrbitControls />
+        <OrbitControls
+            enablePan={true}            // Enable panning
+            screenSpacePanning={true}  // Set to false for world space panning
+            enableZoom={true}           // Enable zooming
+            enableRotate={true}         // Enable rotation
+            panSpeed={1.0}              // Adjust panning speed if needed
+            zoomSpeed={1.2}             // Adjust zoom speed if needed
+            rotateSpeed={1.0}           // Adjust rotation speed if needed
+          />
+
+        <CameraControls /> 
       </Canvas>
       <div className="panel">
         <button onClick={() => setSelectedObject('cube')}>Add Cube</button>
