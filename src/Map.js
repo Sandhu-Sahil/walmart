@@ -44,8 +44,32 @@ const Map = () => {
     z = snapToGrid(z);
 
     // Check if the grid cell is already occupied
-    const isOccupied = objects.some(obj => obj.position[0] === x && obj.position[2] === z);
-    if (isOccupied) return; // If occupied, do nothing
+    // Check if the grid cell is already occupied by a different type of object
+    // const isOccupied = objects.some(obj => 
+    //   obj.position[0] === x && 
+    //   obj.position[2] === z &&
+    //   obj.type !== selectedObject // Allow placement if the types match
+    // );
+    // if (isOccupied) return; // If occupied by a different type, do nothing
+
+    let yFactor = 1;
+    if (selectedObject === 'wall') {
+      // repeat till we find empty y position
+      let isOccupied = true;
+      y = gridSize/2;
+      while (isOccupied) {
+        isOccupied = objects.some(obj => 
+          obj.position[0] === x && 
+          obj.position[1] === y &&
+          obj.position[2] === z
+        );
+        if (isOccupied) {
+          y += gridSize;
+          yFactor += 2;
+        }
+      }
+
+    }
 
     // Create a new object based on the selected type
     let newObject;
@@ -55,7 +79,7 @@ const Map = () => {
           id: Math.random(),
           geometry: <boxGeometry args={[gridSize, gridSize, gridSize]} />,
           material: <meshStandardMaterial color="blue" />,
-          position: [x, gridSize / 2, z], // Position at the center of the grid cell
+          position: [x, yFactor * gridSize / 2, z], // Position at the center of the grid cell
           type: 'cube',
         };
         break;
@@ -64,7 +88,7 @@ const Map = () => {
           id: Math.random(),
           geometry: <sphereGeometry args={[gridSize / 2, 32, 32]} />,
           material: <meshStandardMaterial color="red" />,
-          position: [x, gridSize / 2, z], // Position at the center of the grid cell
+          position: [x, yFactor * gridSize / 2, z], // Position at the center of the grid cell
           type: 'sphere',
         };
         break;
@@ -74,7 +98,7 @@ const Map = () => {
           id: Math.random(),
           geometry: <AisleBlock />,
           material: <meshStandardMaterial color="red" />,
-          position: [x, gridSize / 2, z],
+          position: [x, yFactor * gridSize / 2, z],
           type: 'aisle',
         };
         break;
@@ -83,7 +107,7 @@ const Map = () => {
           id: Math.random(),
           geometry: <WallWithWindowBlock />,
           material: <meshStandardMaterial color="gray" />,
-          position: [x, gridSize / 2, z],
+          position: [x, yFactor * gridSize / 2, z],
           type: 'wall',
         };
         break;
@@ -180,13 +204,13 @@ const Map = () => {
   console.log(objects);
   return (
     <>
-      <Canvas camera={{ position: [0, 100, 100], fov: 50 }}>
+      <Canvas camera={{ position: [0, 150, 400], fov: 50 }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
 
         {/* The Plane */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow onPointerDown={handlePlaneClick}>
-          <planeGeometry args={[gridSize * gridCount, gridSize * gridCount]} />
+          <planeGeometry args={[5 * gridSize * gridCount, 5 * gridSize * gridCount]} />
           <meshStandardMaterial color="green" />
         </mesh>
 
