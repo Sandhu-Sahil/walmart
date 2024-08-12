@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUndo, faRedo, faSave, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
+import { faUndo, faRedo, faSave, faFolderOpen, faArrowUp, faArrowUp19, faArrowUp91, faArrowUpAZ, faArrowDown91 } from '@fortawesome/free-solid-svg-icons';
 import CameraControls from './CameraControls';
 import AisleBlock from './AisleBlock';
 import WallWithWindowBlock from './WallBlock';
@@ -17,6 +17,7 @@ const Map = () => {
   const [redoStack, setRedoStack] = useState([]); // Redo stack
   const [selectedObject, setSelectedObject] = useState(null);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const [mapSize, setMapSize] = useState(22);
 
 
   useEffect(() => {
@@ -35,6 +36,16 @@ const Map = () => {
 
   const snapToGrid = (position) => {
     return Math.round(position / gridSize) * gridSize;
+  };
+
+  const increaseMapSize = () => {
+    setMapSize(mapSize + 2);
+  };
+
+  const decreaseMapSize = () => {
+    if (mapSize > 10) {
+      setMapSize(mapSize - 2);
+    }
   };
 
   const handlePlaneClick = (event) => {
@@ -232,7 +243,7 @@ const Map = () => {
 
         {/* The Plane */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow onPointerDown={handlePlaneClick}>
-          <planeGeometry args={[5 * gridSize * gridCount, 5 * gridSize * gridCount]} />
+          <planeGeometry args={[ mapSize * mapSize, mapSize * mapSize]} />
           <meshStandardMaterial color="green" />
         </mesh>
 
@@ -267,6 +278,8 @@ const Map = () => {
         <button onClick={redo} disabled={redoStack.length === 0}>
           <FontAwesomeIcon icon={faRedo} />
         </button>
+        <button onClick={increaseMapSize}><FontAwesomeIcon icon={faArrowUp19}/></button>
+        <button onClick={decreaseMapSize}><FontAwesomeIcon icon={faArrowDown91}/></button>
         <button onClick={() => saveMapState('myMap')}>
           <FontAwesomeIcon icon={faSave} />
         </button>
