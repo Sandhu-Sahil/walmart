@@ -8,6 +8,8 @@ import { faUndo, faRedo, faSave, faFolderOpen, faArrowUp, faArrowUp19, faArrowUp
 import CameraControls from './CameraControls';
 import AisleBlock from './AisleBlock';
 import WallWithWindowBlock from './WallBlock';
+import AisleBlock2 from './AisleBlock2';
+import WallWithWindowBlock2 from './WallBlock2';
 
 const Map = () => {
   const gridSize = 10; // Size of each grid cell
@@ -145,6 +147,26 @@ const Map = () => {
           type: 'wall',
         };
         break;
+      
+      case 'aisle2':
+        newObject ={
+          id: Math.random(),
+          geometry: <AisleBlock2 />,
+          material: <meshStandardMaterial color="red" />,
+          position: [x, yFactor * gridSize / 2, z],
+          type: 'aisle2',
+        };
+        break;
+
+      case 'wall2':
+        newObject = {
+          id: Math.random(),
+          geometry: <WallWithWindowBlock2 />,
+          material: <meshStandardMaterial color="gray" />,
+          position: [x, yFactor * gridSize / 2, z],
+          type: 'wall2',
+        };
+        break;
 
       default:
         break;
@@ -216,6 +238,14 @@ const Map = () => {
           break;
         case 'wall':
           geometry = <WallWithWindowBlock />;
+          material = <meshStandardMaterial color="gray" />;
+          break;
+        case 'aisle2':
+          geometry = <AisleBlock2 />;
+          material = <meshStandardMaterial color="red" />;
+          break;
+        case 'wall2':
+          geometry = <WallWithWindowBlock2 />;
           material = <meshStandardMaterial color="gray" />;
           break;
         
@@ -291,7 +321,10 @@ const Map = () => {
         <button onClick={() => setSelectedObject('cube')}>Add Cube</button>
         <button onClick={() => setSelectedObject('sphere')}>Add Sphere</button>
         <button onClick={() => setSelectedObject('aisle')}>Add Aisle</button>
+        <button onClick={() => setSelectedObject('aisle2')}>Add Rotated Aisle</button>
         <button onClick={() => setSelectedObject('wall')}>Add Wall</button>
+        <button onClick={() => setSelectedObject('wall2')}>Add Rotated Wall</button>
+        
         <button onClick={undo} disabled={history.length === 0}>
           <FontAwesomeIcon icon={faUndo} />
         </button>
