@@ -6,10 +6,11 @@ import * as THREE from 'three';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUndo, faRedo, faSave, faFolderOpen, faArrowUp, faArrowUp19, faArrowUp91, faArrowUpAZ, faArrowDown91 } from '@fortawesome/free-solid-svg-icons';
 import CameraControls from './CameraControls';
-import AisleBlock from './AisleBlock';
 import WallWithWindowBlock from './WallBlock';
 import AisleBlock2 from './AisleBlock2';
 import WallWithWindowBlock2 from './WallBlock2';
+import AisleBlock from './AisleBlock';
+import PillarBlock from './PillarBlock';
 
 const Map = () => {
   const gridSize = 10; // Size of each grid cell
@@ -167,6 +168,25 @@ const Map = () => {
           type: 'wall2',
         };
         break;
+      
+      case 'pillar':
+        newObject = {
+          id: Math.random(),
+          geometry: <PillarBlock />,
+          material: <meshStandardMaterial color="gray" />,
+          position: [x, yFactor * gridSize / 2, z],
+          type: 'pillar',
+        };
+        break;
+      case 'transparent':
+        newObject = {
+          id: Math.random(),
+          geometry: <boxGeometry args={[gridSize, gridSize, gridSize]} />,
+          material: <meshStandardMaterial color="white" transparent opacity={0} />,
+          position: [x, yFactor * gridSize / 2, z], // Position at the center of the grid cell
+          type: 'transparent',
+        };
+        break;
 
       default:
         break;
@@ -248,6 +268,14 @@ const Map = () => {
           geometry = <WallWithWindowBlock2 />;
           material = <meshStandardMaterial color="gray" />;
           break;
+        case 'pillar':
+          geometry = <PillarBlock />;
+          material = <meshStandardMaterial color="gray" />;
+          break
+        case 'transparent':
+          geometry = <boxGeometry args={[gridSize, gridSize, gridSize]} />;
+          material = <meshStandardMaterial color="white" transparent opacity={0} />;
+          break;
         
         default:
           break;
@@ -324,6 +352,8 @@ const Map = () => {
         <button onClick={() => setSelectedObject('aisle2')}>Add Rotated Aisle</button>
         <button onClick={() => setSelectedObject('wall')}>Add Wall</button>
         <button onClick={() => setSelectedObject('wall2')}>Add Rotated Wall</button>
+        <button onClick={() => setSelectedObject('pillar')}>Add Pillar</button>
+        <button onClick={() => setSelectedObject('transparent')}>Add Empty</button>
         
         <button onClick={undo} disabled={history.length === 0}>
           <FontAwesomeIcon icon={faUndo} />
