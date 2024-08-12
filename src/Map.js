@@ -196,7 +196,7 @@ const Map = () => {
     setHistory([...history, objects]);
     setRedoStack([]);
     setObjects([...objects, newObject]);
-    setSelectedObject(null); // Reset selection after placing the object
+    // setSelectedObject(null); // Reset selection after placing the object
   };
 
   const undo = () => {
@@ -346,33 +346,37 @@ const Map = () => {
         <CameraControls /> 
       </Canvas>
       <div className="panel">
-        <button onClick={() => setSelectedObject('cube')}>Add Cube</button>
-        <button onClick={() => setSelectedObject('sphere')}>Add Sphere</button>
-        <button onClick={() => setSelectedObject('aisle')}>Add Aisle</button>
-        <button onClick={() => setSelectedObject('aisle2')}>Add Rotated Aisle</button>
-        <button onClick={() => setSelectedObject('wall')}>Add Wall</button>
-        <button onClick={() => setSelectedObject('wall2')}>Add Rotated Wall</button>
-        <button onClick={() => setSelectedObject('pillar')}>Add Pillar</button>
-        <button onClick={() => setSelectedObject('transparent')}>Add Empty</button>
-        
-        <button onClick={undo} disabled={history.length === 0}>
-          <FontAwesomeIcon icon={faUndo} />
-        </button>
-        <button onClick={redo} disabled={redoStack.length === 0}>
-          <FontAwesomeIcon icon={faRedo} />
-        </button>
-        <button onClick={increaseMapSize}><FontAwesomeIcon icon={faArrowUp19}/></button>
-        <button onClick={decreaseMapSize}><FontAwesomeIcon icon={faArrowDown91}/></button>
-        <button onClick={() => saveMapState('myMap')}>
-          <FontAwesomeIcon icon={faSave} />
-        </button>
-        <button onClick={() => loadMapState('myMap')}>
-          <FontAwesomeIcon icon={faFolderOpen} />
-        </button>
-        <button onClick={() => setIsDeleteMode(!isDeleteMode)} style={{ backgroundColor: isDeleteMode ? 'red' : 'grey' }}>
-          Delete Mode
-        </button>
+        <div className='innerPanel1'>
+          <button onClick={() => setSelectedObject('cube')}>Add Cube</button>
+          <button onClick={() => setSelectedObject('sphere')}>Add Sphere</button>
+          <button onClick={() => setSelectedObject('aisle')}>Add Aisle</button>
+          <button onClick={() => setSelectedObject('aisle2')}>Add Rotated Aisle</button>
+          <button onClick={() => setSelectedObject('wall')}>Add Wall</button>
+          <button onClick={() => setSelectedObject('wall2')}>Add Rotated Wall</button>
+          <button onClick={() => setSelectedObject('pillar')}>Add Pillar</button>
+          <button onClick={() => setSelectedObject('transparent')}>Add Empty</button>
+        </div>
 
+        <div className='innerPanel2'>
+          <button style={{backgroundColor:'red'}} onClick={() => setSelectedObject(null)}>DESELECT</button>        
+          <button onClick={undo} disabled={history.length === 0}>
+            <FontAwesomeIcon icon={faUndo} />
+          </button>
+          <button onClick={redo} disabled={redoStack.length === 0}>
+            <FontAwesomeIcon icon={faRedo} />
+          </button>
+          <button onClick={increaseMapSize}><FontAwesomeIcon icon={faArrowUp19}/></button>
+          <button onClick={decreaseMapSize}><FontAwesomeIcon icon={faArrowDown91}/></button>
+          <button onClick={() => saveMapState('myMap')}>
+            <FontAwesomeIcon icon={faSave} />
+          </button>
+          <button onClick={() => loadMapState('myMap')}>
+            <FontAwesomeIcon icon={faFolderOpen} />
+          </button>
+          <button onClick={() => setIsDeleteMode(!isDeleteMode)} style={{ backgroundColor: isDeleteMode ? 'red' : 'grey' }}>
+            Delete Mode
+          </button>
+        </div>
       </div>
     </>
   );
