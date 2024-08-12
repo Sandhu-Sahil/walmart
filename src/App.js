@@ -1,8 +1,8 @@
 // src/App.js
 import React from 'react';
 import './App.css';
-import Map from './Map';
-import BBlock from './Custom';
+import Map from './components/Map';
+import BBlock from './components/Custom';
 
 function App() {
   return (

@@ -4,7 +4,7 @@ import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 // import BlockWithCircles from './BlockWithCircles';
 // import BlockWithVerticalHoles from './BlockWithHoles';
-import AisleBlock from './AisleBlock';
+import AisleBlock from '../blocks/AisleBlock';
 
 const CustomBlock = () => {
   // Define the shape

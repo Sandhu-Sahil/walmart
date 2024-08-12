@@ -6,11 +6,11 @@ import * as THREE from 'three';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUndo, faRedo, faSave, faFolderOpen, faArrowUp, faArrowUp19, faArrowUp91, faArrowUpAZ, faArrowDown91 } from '@fortawesome/free-solid-svg-icons';
 import CameraControls from './CameraControls';
-import WallWithWindowBlock from './WallBlock';
-import AisleBlock2 from './AisleBlock2';
-import WallWithWindowBlock2 from './WallBlock2';
-import AisleBlock from './AisleBlock';
-import PillarBlock from './PillarBlock';
+import WallWithWindowBlock from '../blocks/WallBlock';
+import AisleBlock2 from '../blocks/AisleBlock2';
+import WallWithWindowBlock2 from '../blocks/WallBlock2';
+import PillarBlock from '../blocks/PillarBlock';
+import AisleBlock from '../blocks/AisleBlock';
 
 const Map = () => {
   const gridSize = 10; // Size of each grid cell
