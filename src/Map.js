@@ -86,7 +86,7 @@ const Map = () => {
     // if (isOccupied) return; // If occupied by a different type, do nothing
 
     let yFactor = 1;
-    if (selectedObject === 'wall') {
+    if (true) {
       // repeat till we find empty y position
       let isOccupied = true;
       y = gridSize/2;
