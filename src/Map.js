@@ -18,6 +18,7 @@ const Map = () => {
   const [selectedObject, setSelectedObject] = useState(null);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [mapSize, setMapSize] = useState(22);
+  const [hoveredCell, setHoveredCell] = useState(null);
 
 
   useEffect(() => {
@@ -233,6 +234,18 @@ const Map = () => {
   
     setObjects(loadedObjects);
   };
+
+  const handlePlaneHover = (event) => {
+    let [x, , z] = event.point.toArray();
+    x = snapToGrid(x);
+    z = snapToGrid(z);
+    setHoveredCell([x, z]);
+  };
+  
+  const handlePlaneLeave = () => {
+    setHoveredCell(null);
+  };
+  
   
   console.log(objects);
   return (
@@ -242,10 +255,17 @@ const Map = () => {
         <pointLight position={[10, 10, 10]} />
 
         {/* The Plane */}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow onPointerDown={handlePlaneClick}>
+        <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow onPointerDown={handlePlaneClick} onPointerMove={handlePlaneHover} onPointerOut={handlePlaneLeave}>
           <planeGeometry args={[ mapSize * mapSize, mapSize * mapSize]} />
           <meshStandardMaterial color="green" />
         </mesh>
+
+        {hoveredCell && (
+          <mesh position={[hoveredCell[0], 0.01, hoveredCell[1]]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[gridSize, gridSize]} />
+            <meshStandardMaterial color="yellow" transparent />
+          </mesh>
+        )}
 
         {/* Render objects */}
         {objects.map((obj) => (
