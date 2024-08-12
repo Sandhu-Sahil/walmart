@@ -11,6 +11,10 @@ import AisleBlock2 from '../blocks/AisleBlock2';
 import WallWithWindowBlock2 from '../blocks/WallBlock2';
 import PillarBlock from '../blocks/PillarBlock';
 import AisleBlock from '../blocks/AisleBlock';
+import TransparentBlock from '../blocks/TransparentBlock';
+import StorageUnitBlock from '../blocks/StorageUnitBlock';
+import CheckoutCounterBlock from '../blocks/CheckoutCounterBlock';
+import SquareShelfBlock from '../blocks/SquareAisleBlock';
 
 const Map = () => {
   const gridSize = 10; // Size of each grid cell
@@ -178,10 +182,41 @@ const Map = () => {
           type: 'pillar',
         };
         break;
+
+      case 'cradle':
+        newObject = {
+          id: Math.random(),
+          geometry: <StorageUnitBlock />,
+          material: <meshStandardMaterial color="gray" />,
+          position: [x, yFactor * gridSize / 2, z],
+          type: 'cradle',
+        };
+        break;
+
+      case 'billingCounter':
+        newObject = {
+          id: Math.random(),
+          geometry: <CheckoutCounterBlock />,
+          material: <meshStandardMaterial color="gray" />,
+          position: [x, yFactor * gridSize / 2, z],
+          type: 'billingCounter',
+        };
+        break;
+
+      case 'squaredAisle':
+        newObject = {
+          id: Math.random(),
+          geometry: <SquareShelfBlock />,
+          material: <meshStandardMaterial color="red" />,
+          position: [x, yFactor * gridSize / 2, z],
+          type: 'squaredAisle',
+        };
+        break;
+
       case 'transparent':
         newObject = {
           id: Math.random(),
-          geometry: <boxGeometry args={[gridSize, gridSize, gridSize]} />,
+          geometry: <TransparentBlock />,
           material: <meshStandardMaterial color="white" transparent opacity={0} />,
           position: [x, yFactor * gridSize / 2, z], // Position at the center of the grid cell
           type: 'transparent',
@@ -276,6 +311,18 @@ const Map = () => {
           geometry = <boxGeometry args={[gridSize, gridSize, gridSize]} />;
           material = <meshStandardMaterial color="white" transparent opacity={0} />;
           break;
+        case 'cradle':
+          geometry = <StorageUnitBlock />;
+          material = <meshStandardMaterial color="gray" />;
+          break;
+        case 'billingCounter':
+          geometry = <CheckoutCounterBlock />;
+          material = <meshStandardMaterial color="gray" />;
+          break;
+        case 'squaredAisle':
+          geometry = <SquareShelfBlock />;
+          material = <meshStandardMaterial color="red" />;
+          break;
         
         default:
           break;
@@ -347,14 +394,17 @@ const Map = () => {
       </Canvas>
       <div className="panel">
         <div className='innerPanel1'>
-          <button onClick={() => setSelectedObject('cube')}>Add Cube</button>
-          <button onClick={() => setSelectedObject('sphere')}>Add Sphere</button>
-          <button onClick={() => setSelectedObject('aisle')}>Add Aisle</button>
-          <button onClick={() => setSelectedObject('aisle2')}>Add Rotated Aisle</button>
-          <button onClick={() => setSelectedObject('wall')}>Add Wall</button>
-          <button onClick={() => setSelectedObject('wall2')}>Add Rotated Wall</button>
-          <button onClick={() => setSelectedObject('pillar')}>Add Pillar</button>
-          <button onClick={() => setSelectedObject('transparent')}>Add Empty</button>
+          <button onClick={() => setSelectedObject('cube')}>Cube</button>
+          <button onClick={() => setSelectedObject('sphere')}>Sphere</button>
+          <button onClick={() => setSelectedObject('aisle')}>Aisle</button>
+          <button onClick={() => setSelectedObject('aisle2')}>Rotated Aisle</button>
+          <button onClick={() => setSelectedObject('squaredAisle')}>Squared Aisle</button>
+          <button onClick={() => setSelectedObject('wall')}>Wall</button>
+          <button onClick={() => setSelectedObject('wall2')}>Rotated Wall</button>
+          <button onClick={() => setSelectedObject('pillar')}>Pillar</button>
+          <button onClick={() => setSelectedObject('cradle')}>Cradle Storage</button>
+          <button onClick={() => setSelectedObject('billingCounter')}>Billing Counter</button>
+          <button onClick={() => setSelectedObject('transparent')}>Empty</button>
         </div>
 
         <div className='innerPanel2'>
