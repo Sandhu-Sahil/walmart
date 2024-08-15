@@ -15,6 +15,7 @@ import TransparentBlock from '../blocks/TransparentBlock';
 import StorageUnitBlock from '../blocks/StorageUnitBlock';
 import CheckoutCounterBlock from '../blocks/CheckoutCounterBlock';
 import SquareShelfBlock from '../blocks/SquareAisleBlock';
+import StorageUnitBlock2 from '../blocks/StorageUnitBlock2';
 
 const Map = () => {
   const gridSize = 10; // Size of each grid cell
@@ -192,6 +193,16 @@ const Map = () => {
           type: 'cradle',
         };
         break;
+      
+      case 'cradle2':
+        newObject = {
+          id: Math.random(),
+          geometry: <StorageUnitBlock2 />,
+          material: <meshStandardMaterial color="gray" />,
+          position: [x, yFactor * gridSize / 2, z],
+          type: 'cradle2',
+        };
+        break;
 
       case 'billingCounter':
         newObject = {
@@ -323,6 +334,10 @@ const Map = () => {
           geometry = <SquareShelfBlock />;
           material = <meshStandardMaterial color="red" />;
           break;
+        case 'cradle2':
+          geometry = <StorageUnitBlock2 />;
+          material = <meshStandardMaterial color="gray" />;
+          break;
         
         default:
           break;
@@ -403,6 +418,7 @@ const Map = () => {
           <button onClick={() => setSelectedObject('wall2')}>Rotated Wall</button>
           <button onClick={() => setSelectedObject('pillar')}>Pillar</button>
           <button onClick={() => setSelectedObject('cradle')}>Cradle Storage</button>
+          <button onClick={() => setSelectedObject('cradle2')}>Cradle Storage Rotated</button>
           <button onClick={() => setSelectedObject('billingCounter')}>Billing Counter</button>
           <button onClick={() => setSelectedObject('transparent')}>Empty</button>
         </div>
