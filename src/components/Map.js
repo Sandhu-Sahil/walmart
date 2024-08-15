@@ -259,7 +259,7 @@ const Map = () => {
         return {
           type: obj.type,  
           position: obj.position,
-          // size: obj.geometry.props.args,  // Store the size (e.g., width, height, depth, etc.)
+          id: obj.id,
           color: color
         };
       })
@@ -330,7 +330,7 @@ const Map = () => {
   
   
       return {
-        id: Math.random(),
+        id: obj.id,
         geometry: geometry,
         material: material,
         position: obj.position,
