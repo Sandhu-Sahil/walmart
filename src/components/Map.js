@@ -377,7 +377,7 @@ const Map = () => {
         {/* The Plane */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow onPointerDown={handlePlaneClick} onPointerMove={handlePlaneHover} onPointerOut={handlePlaneLeave}>
           <planeGeometry args={[ mapSize * mapSize, mapSize * mapSize]} />
-          <meshStandardMaterial color="green" />
+          <meshStandardMaterial color="#B9A695" />
         </mesh>
 
         {hoveredCell && (

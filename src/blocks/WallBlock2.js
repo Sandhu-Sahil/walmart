@@ -28,7 +28,7 @@ const WallWithWindowBlock2 = () => {
 
   return (
     <mesh geometry={geometry} position={wallPosition} rotation={[0, Math.PI / 2, 0]}>
-      <meshStandardMaterial color="gray" />
+      <meshStandardMaterial color="#F9F9F9" />
     </mesh>
   );
 };

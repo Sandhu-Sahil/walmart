@@ -15,7 +15,7 @@ const PillarBlock = () => {
 
   return (
     <mesh geometry={geometry} position={pillarPosition}>
-      <meshStandardMaterial color="gray" />
+      <meshStandardMaterial color="#D3D3D3" />
     </mesh>
   );
 };

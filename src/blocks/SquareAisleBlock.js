@@ -15,7 +15,7 @@ const SquareShelfBlock = () => {
   // Create shelves
   for (let i = 0; i <= numShelves; i++) {
     const shelfGeometry = new THREE.BoxGeometry(blockSize, shelfThickness, blockSize);
-    const shelfMaterial = new THREE.MeshStandardMaterial({ color: 'red' });
+    const shelfMaterial = new THREE.MeshStandardMaterial({ color: '#A6DABE' });
     const shelf = new THREE.Mesh(shelfGeometry, shelfMaterial);
 
     shelf.position.set(0, -i * shelfHeight, 0); // Inverted position to simulate 360-degree rotation
@@ -25,7 +25,7 @@ const SquareShelfBlock = () => {
 
   // Create vertical supports (pillars) at each corner
   const pillarGeometry = new THREE.BoxGeometry(pillarThickness, blockSize, pillarThickness);
-  const pillarMaterial = new THREE.MeshStandardMaterial({ color: 'brown' });
+  const pillarMaterial = new THREE.MeshStandardMaterial({ color: '#35684C' });
 
   const positions = [
     [-blockSize / 2 + pillarThickness / 2, -blockSize / 2, -blockSize / 2 + pillarThickness / 2],

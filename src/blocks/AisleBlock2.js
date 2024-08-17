@@ -32,12 +32,12 @@ const AisleBlock2 = () => {
   const group = new THREE.Group();
 
   // Create the aisle block itself
-  const aisleBlock = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: 'red' }));
+  const aisleBlock = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: '#FF9399' }));
   group.add(aisleBlock);
 
   // Add side panels (left and right) in brown color
   const sidePanelGeometry = new THREE.BoxGeometry(sideThickness, blockSize, aisleDepth);
-  const sidePanelMaterial = new THREE.MeshStandardMaterial({ color: 'brown' });
+  const sidePanelMaterial = new THREE.MeshStandardMaterial({ color: '#DB3A44' });
 
   const leftSidePanel = new THREE.Mesh(sidePanelGeometry, sidePanelMaterial);
   leftSidePanel.position.set(-blockSize / 2 + sideThickness / 2, 0, 0);

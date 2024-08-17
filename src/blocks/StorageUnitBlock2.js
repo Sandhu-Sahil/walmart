@@ -15,7 +15,7 @@ const StorageUnitBlock2 = () => {
 
   // Create vertical supports (pillars)
   const supportGeometry = new THREE.BoxGeometry(supportThickness, unitHeight, supportThickness);
-  const supportMaterial = new THREE.MeshStandardMaterial({ color: 'gray' });
+  const supportMaterial = new THREE.MeshStandardMaterial({ color: '#96741E' });
 
   const supportPositions = [
     [-blockSize / 2 + supportThickness / 2, unitHeight / 2 - unitHeight / 2, -cradleDepth / 2], // Touching bottom
@@ -33,7 +33,7 @@ const StorageUnitBlock2 = () => {
   // Create cradles
   for (let i = 0; i < 3; i++) {
     const cradleGeometry = new THREE.BoxGeometry(blockSize - supportThickness, cradleThickness, cradleDepth);
-    const cradleMaterial = new THREE.MeshStandardMaterial({ color: 'orange' });
+    const cradleMaterial = new THREE.MeshStandardMaterial({ color: '#FFDF8B' });
     const cradle = new THREE.Mesh(cradleGeometry, cradleMaterial);
 
     cradle.position.set(0, i * cradleHeight + cradleHeight / 2 - unitHeight / 2, 0); // Position the cradle starting from the bottom
@@ -42,7 +42,7 @@ const StorageUnitBlock2 = () => {
 
   // Create bulk boxes
   const boxGeometry = new THREE.BoxGeometry(cradleDepth - 1, cradleHeight - 1, cradleDepth - 1);
-  const boxMaterial = new THREE.MeshStandardMaterial({ color: 'brown' });
+  const boxMaterial = new THREE.MeshStandardMaterial({ color: '#FFB35F' });
 
   for (let i = 0; i < 3; i++) {
     const box = new THREE.Mesh(boxGeometry, boxMaterial);
